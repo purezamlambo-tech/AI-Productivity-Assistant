@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Productivity Assistant | Mornia Monareng</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div>
+        <h1 class="text-xl font-bold text-white tracking-tight">AI Productivity Assistant</h1>
+        <p class="text-xs text-cyan-400 font-mono">Developed by Mornia Monareng | IT Support & Operations</p>
+      </div>
+      <div class="flex items-center space-x-4 text-sm font-medium">
+        <a href="https://github.com/purezamlambo-tech" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition">GitHub</a>
+        <a href="https://www.linkedin.com/in/mornia-monareng-619711140" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-cyan-300 transition">LinkedIn</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-6xl w-full mx-auto p-6 grid md:grid-cols-3 gap-6">
+
+    <!-- Workspace Sidebar -->
+    <aside class="space-y-3">
+      <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Automation Modules</h2>
+      
+      <button onclick="selectModule('email')" id="btn-email" class="w-full text-left p-4 rounded-xl border border-cyan-500 bg-slate-800 text-white font-medium transition hover:border-cyan-400 flex items-center justify-between">
+        <span>✉️ Email Generator</span>
+        <span class="text-xs text-cyan-400">Active</span>
+      </button>
+
+      <button onclick="selectModule('summary')" id="btn-summary" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-900/50 text-slate-300 font-medium transition hover:border-slate-700 hover:bg-slate-800 flex items-center justify-between">
+        <span>📋 Meeting Summarizer</span>
+      </button>
+
+      <button onclick="selectModule('planner')" id="btn-planner" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-900/50 text-slate-300 font-medium transition hover:border-slate-700 hover:bg-slate-800 flex items-center justify-between">
+        <span>📅 Daily Task Planner</span>
+      </button>
+
+      <button onclick="selectModule('research')" id="btn-research" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-900/50 text-slate-300 font-medium transition hover:border-slate-700 hover:bg-slate-800 flex items-center justify-between">
+        <span>🔍 Research Assistant</span>
+      </button>
+
+      <button onclick="selectModule('chatbot')" id="btn-chatbot" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-900/50 text-slate-300 font-medium transition hover:border-slate-700 hover:bg-slate-800 flex items-center justify-between">
+        <span>🤖 IT Support Chatbot</span>
+      </button>
+    </aside>
+
+    <!-- Workspace Execution Panel -->
+    <section class="md:col-span-2 bg-slate-800/40 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between">
+      <div>
+        <div class="mb-6">
+          <h2 id="module-title" class="text-2xl font-bold text-white mb-2">Email Generator</h2>
+          <p id="module-desc" class="text-sm text-slate-400 leading-relaxed">Provide your main points below to generate a professional email draft.</p>
+        </div>
+
+        <div class="space-y-4">
+          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">Input Prompt Details</label>
+          <textarea id="user-input" rows="5" class="w-full p-4 rounded-xl bg-slate-900 border border-slate-700 text-slate-100 text-sm focus:outline-none focus:border-cyan-400 transition" placeholder="e.g., Request an update on network switch setup from the IT team..."></textarea>
+        </div>
+      </div>
+
+      <div class="mt-6 space-y-6">
+        <button onclick="generateOutput()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3 rounded-xl transition transform hover:-translate-y-0.5">
+          Execute Assistant Task
+        </button>
+
+        <!-- Output Box -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Generated Result</label>
+          <div id="output-box" class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 text-sm font-mono whitespace-pre-wrap min-h-[140px]">
+Click "Execute Assistant Task" to view response output...
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800 py-4 text-center text-xs text-slate-500">
+    <p>© Mornia Monareng. Built with HTML5, JavaScript & Tailwind CSS.</p>
+  </footer>
+
+  <!-- Script Logic -->
+  <script>
+    let currentModule = 'email';
+
+    const modules = {
+      email: {
+        title: "Email Generator",
+        desc: "Provide key points to draft structured office and administrative communications.",
+        placeholder: "e.g., Send an update regarding student documentation at Ivory Park Primary School...",
+        template: (text) => `SUBJECT: Official Update / Administrative Notice\n\nDear Team,\n\nI hope this message finds you well.\n\nI am writing regarding: ${text}.\n\nPlease let me know if you require any additional information or records from my end.\n\nBest regards,\nMornia Monareng\nIT Support & Administrative Operations\nEmail: mmonareng@yahoo.com | purezamlambo@gmail.com\nPhone: 067 183 6610`
+      },
+      summary: {
+        title: "Meeting Summarizer",
+        desc: "Paste raw meeting notes to extract key takeaways, decisions, and action items.",
+        placeholder: "Paste raw meeting notes or conversation logs here...",
+        template: (text) => `=== MEETING SUMMARY ===\n\nKey Topics Discussed:\n- ${text}\n\nKey Decisions:\n- Action items assigned for priority execution.\n- Records updated according to standard procedures.\n\nAssigned Action Items:\n1. Update operational logging system.\n2. Complete follow-up review with the project supervisor.`
+      },
+      planner: {
+        title: "Daily Task Planner",
+        desc: "List your duties to organize them into prioritized workflow categories.",
+        placeholder: "e.g., Check router configurations, compile student files, update data capture logs...",
+        template: (text) => `=== DAILY WORKFLOW PLAN ===\n\n🔥 HIGH PRIORITY:\n- Process immediate task: ${text}\n\n⚙️ MEDIUM PRIORITY:\n- Update administrative logs and system filing.\n- Verify voter roll/data entry verification tasks.\n\n✅ LOW PRIORITY:\n- Organize workspace and review documentation.`
+      },
+      research: {
+        title: "Research Assistant",
+        desc: "Enter a topic to generate a structured synthesis and key findings.",
+        placeholder: "e.g., Network troubleshooting protocols or OHS compliance standards...",
+        template: (text) => `=== RESEARCH SYNTHESIS: ${text.toUpperCase()} ===\n\n1. Executive Overview:\nA review of operational standards and best practices regarding ${text}.\n\n2. Key Operational Findings:\n- Alignment with system protocols and documentation standards.\n- Implementation of structured verification procedures.`
+      },
+      chatbot: {
+        title: "IT Support Chatbot",
+        desc: "Simulate helpdesk troubleshooting responses for common technical issues.",
+        placeholder: "e.g., User unable to connect to the local area network (LAN)...",
+        template: (text) => `=== IT HELPDESK ASSISTANT ===\n\nIssue Reported: ${text}\n\nTroubleshooting Steps:\n1. Verify physical ethernet link and active Wi-Fi connection.\n2. Run IP configuration check ('ipconfig /all') to confirm valid IP assignment.\n3. Test network gateway connectivity using ping tests.\n4. Log ticket in administration system if issue persists.`
+      }
+    };
+
+    function selectModule(mod) {
+      currentModule = mod;
+      ['email', 'summary', 'planner', 'research', 'chatbot'].forEach(m => {
+        const btn = document.getElementById(`btn-${m}`);
+        if(m === mod) {
+          btn.className = "w-full text-left p-4 rounded-xl border border-cyan-500 bg-slate-800 text-white font-medium transition hover:border-cyan-400 flex items-center justify-between";
+        } else {
+          btn.className = "w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-900/50 text-slate-300 font-medium transition hover:border-slate-700 hover:bg-slate-800 flex items-center justify-between";
+        }
+      });
+
+      document.getElementById('module-title').innerText = modules[mod].title;
+      document.getElementById('module-desc').innerText = modules[mod].desc;
+      document.getElementById('user-input').placeholder = modules[mod].placeholder;
+    }
+
+    function generateOutput() {
+      const input = document.getElementById('user-input').value.trim();
+      const outputBox = document.getElementById('output-box');
+
+      if (!input) {
+        outputBox.innerText = "Please enter prompt details in the text box above before executing.";
+        return;
+      }
+
+      outputBox.innerText = modules[currentModule].template(input);
+    }
+  </script>
+</body>
+</html>
